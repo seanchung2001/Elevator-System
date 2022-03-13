@@ -1,0 +1,26 @@
+DESIGN DECISION
+
+For this assignment, I decided to apply the mediator pattern learned in class in order to create the elevator control system in QT C++. The ECS class will create a list of Elevators,
+as well as a list of Floors and Passengers. Each request will be sent and processed by the ECS, and the ECS will send information back to the floors and elevators in order to carry out
+passenger requests expeditiously. The Elevator class has an instance of the door class, weightsensor class, screen class, and an audio class. These classes are all responsible for carrying
+out specific tasks on a particular elevator. Each floor has a floorsensor, which signals to the ECS that a pariticular elevator has passed a floor. This functionality is significant for
+implementing handling variability in the ECS. My design has 5 passengers, 3 elevators, and 6 floors. I also created 3 elevator named 'inUse1', 'inUse2', 'inUse3', respectively. This is because
+when we look for an 'idle' elevator to carry out a passengers request in 'MainWindow.cpp', it will return either 'elevator1', 'elevator2', or 'elevator3'. I created these 3 extra elevators
+(inUse1, inUse2, inUse3) in order to store the idle elevator that is returned by the ECS. The reason we need a different number of floors and elevators is because we need to handle variability.
+Because there are more floors then elevators, if all elevators are busy, there could still be incoming floor requests. The ECS needs to handle this situation by creating floor requests so that when
+an elevator passes a certain floor moving a certain direction, it will check to see if there are any requests that can be handled.
+
+HANDLING VARIABILITY
+I decided to implement the 'Elevator-Centered Strategy' in my QT implementation. Each elevator will have requests to different floors, which are commanded by the ECS. In the 'getElevator()' function in the
+'ECS' class, we are getting a list of idle elevators, and of those idle elevators, checking which one is the closest to the requested floor and returning that elevator. Although I only have 1 implementation
+of handling variability (Elevator-Centered Strategy), I included 2 handling variability strategies in my diagrams and traceability matrix (with approval from prof). The 2 handling variability strategies in
+my diagrams/traceability matrix are: 'Elevator-Centered Strategy' and the 'AI Strategy'. Briefly, the AI strategy is implemented in my sequence diagrams by checking for floor requests with the 'makeDecision()'
+function when an elevator passes each floor of the building. If the car is heading the same direction as the elevator car is currently moving, the car will stop and pick up the passenger. This is what the
+'makeDecision()' function would be doing.In my activity diagrams, a similar concept follows. Each floor the elevator visits (whether picking up passengers or transporting passengers), it will check for floor requests.
+Again, if the requested direction of a floor request that an elevator receives is heading the same direction as the car is moving, it will stop the elevator car to pick up or drop off the passenger. This is also
+described in my traceability matrix.
+
+
+Activity diagrams and sequence diagrams for safety features:
+
+I did not start these diagrams from the beginning, (i.e., passenger requests elevator from floor 0->...) but rather started them fron the necessary positions which is stated above the diagrams as a comment in 'seanchung-assign2.pdf'.
